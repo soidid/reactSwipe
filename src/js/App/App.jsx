@@ -22,6 +22,7 @@ var App = React.createClass({
        touchEndY: null,
        finalMoveX: null,
        isMoving: false,//現在正在互動，使用者 hold 住不動中
+       min: 0,
        max: 5 // MaxIndex = data.length-1
     }
   },
@@ -44,12 +45,22 @@ var App = React.createClass({
     var state = this.state;
     var moveX = state.touchEndX - state.touchStartX;
     var moveY = state.touchEndY - state.touchStartY;
-   
+    console.log(state.touchEndX);
+    console.log(state.touchStartX);
+    console.log(moveX);
+
     currentIndex = state.currentIndex;
+
+    
 
     this.setState({
         isMoving: false
     });
+
+    if(state.touchEndX===null){
+        console.log("null!!!!");
+        return;
+    }
 
     //console.log("x:"+Math.abs(moveX)+", y:"+Math.abs(moveY));
     // 40 is threshold
@@ -61,19 +72,27 @@ var App = React.createClass({
     // Slide Direction
     if(moveX > 0){//toggle Prev
         currentIndex = currentIndex -1;
-        if(currentIndex < 0)
-           currentIndex = 0;
-           //currentIndex = state.max;
+        if(currentIndex < 0){
+          currentIndex = 0;
+          //currentIndex = state.max;
+
+        }
+           
     
     }else{//toggle Next
         currentIndex = currentIndex + 1;
-        if(currentIndex > state.max)
-           currentIndex = state.max;
-           //currentIndex = currentIndex % (state.max+1);
-       
+        if(currentIndex > state.max){
+          currentIndex = state.max;
+          //currentIndex = currentIndex % (state.max+1);
+
+        } 
     }
    
     this.setState({
+      touchStartX: null,
+      touchStartY: null,
+      touchEndX: null,
+      touchEndY: null,
       currentIndex: currentIndex,
       finalMoveX: moveX
     });
@@ -96,11 +115,16 @@ var App = React.createClass({
 
   render () {
     
-    var {currentIndex, finalMoveX, isMoving} = this.state;
+    var {currentIndex, finalMoveX, isMoving, max, min, touchEndX} = this.state;
     var state = this.state;
     var moveX = state.touchEndX - state.touchStartX;
     var moveY = state.touchEndY - state.touchStartY;
-
+    console.log("****render");
+    console.log(moveX);
+    if(touchEndX === null){
+       moveX = 0;
+       moveY = 0;
+    }
     return (
         <div className="App"
              onTouchStart={this._onTouchStart}
@@ -111,7 +135,9 @@ var App = React.createClass({
                    currentIndex={currentIndex}
                    moveX={moveX}
                    finalMoveX={finalMoveX}
-                   isMoving={isMoving} />
+                   isMoving={isMoving}
+                   max={max}
+                   min={min} />
         </div>
     );
   }

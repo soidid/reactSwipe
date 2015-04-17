@@ -25,7 +25,7 @@ var Cards = React.createClass({
   },
   render () {
 
-  	var {data, currentIndex, moveX, finalMoveX, isMoving} = this.props;
+  	var {data, currentIndex, moveX, finalMoveX, isMoving, min, max} = this.props;
   	var classSet = React.addons.classSet;
 
   	var cardItems = data
@@ -46,14 +46,17 @@ var Cards = React.createClass({
 
     console.log("isMoving:"+isMoving);
 
-    if(!finalMoveX && isMoving === true){
-    	var currentX = currentIndex * -320 + moveX;
-    	var style = {
+    if(!finalMoveX && isMoving === true ){
+      
+        var currentX = currentIndex * -320 + moveX;
+        var style = {
             "-ms-transform": "translate3d("+currentX+"px,0,0)",  /* IE 9 */
             "-webkit-transform": "translate3d("+currentX+"px,0,0)", /* Chrome, Safari, Opera */
             transform: "translate3d("+currentX+"px,0,0)"
             
-          }
+        }
+
+     
     }else {
     	var currentX = currentIndex * -320;
     	var style = {
