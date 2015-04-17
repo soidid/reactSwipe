@@ -25,7 +25,7 @@ var Cards = React.createClass({
   },
   render () {
 
-  	var {data, currentIndex, moveX, finalMoveX} = this.props;
+  	var {data, currentIndex, moveX, finalMoveX, isMoving} = this.props;
   	var classSet = React.addons.classSet;
 
   	var cardItems = data
@@ -44,22 +44,27 @@ var Cards = React.createClass({
         )
   	});
 
-    if(!finalMoveX){
+    console.log("isMoving:"+isMoving);
+
+    if(!finalMoveX && isMoving === true){
     	var currentX = currentIndex * -320 + moveX;
     	var style = {
             "-ms-transform": "translate3d("+currentX+"px,0,0)",  /* IE 9 */
             "-webkit-transform": "translate3d("+currentX+"px,0,0)", /* Chrome, Safari, Opera */
             transform: "translate3d("+currentX+"px,0,0)"
-        }
-
-    }else{
+            
+          }
+    }else {
     	var currentX = currentIndex * -320;
     	var style = {
-    		"-ms-transform": "translate3d("+currentX+"px,0,0)",  /* IE 9 */
+    		    "-ms-transform": "translate3d("+currentX+"px,0,0)",  /* IE 9 */
             "-webkit-transform": "translate3d("+currentX+"px,0,0)", /* Chrome, Safari, Opera */
-            transform: "translate3d("+currentX+"px,0,0)"
+            transform: "translate3d("+currentX+"px,0,0)",
+            "transition-duration": "0.5s",
+            "transition-timing-function": "ease-in-out"
     	};
     }
+    console.log(moveX);
   	
     return (
         <div className="Cards-container">

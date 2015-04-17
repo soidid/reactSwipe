@@ -21,6 +21,7 @@ var App = React.createClass({
        touchEndX: null,
        touchEndY: null,
        finalMoveX: null,
+       isMoving: false,//現在正在互動，使用者 hold 住不動中
        max: 5 // MaxIndex = data.length-1
     }
   },
@@ -33,21 +34,28 @@ var App = React.createClass({
     this.setState({
       touchStartX: event.touches[0].clientX,
       touchStartY: event.touches[0].clientY,
-      finalMoveX: null
+      finalMoveX: null,
+      isMoving: true
     });
   },
 
   _onTouchEnd(event){
+    console.log("onTouchEnd");
     var state = this.state;
     var moveX = state.touchEndX - state.touchStartX;
     var moveY = state.touchEndY - state.touchStartY;
    
     currentIndex = state.currentIndex;
 
+    this.setState({
+        isMoving: false
+    });
+
     //console.log("x:"+Math.abs(moveX)+", y:"+Math.abs(moveY));
     // 40 is threshold
     if(Math.abs(moveX) < 40 || Math.abs(moveY) > 50){
-       return;
+        
+        return;
 
     }
     // Slide Direction
@@ -64,7 +72,7 @@ var App = React.createClass({
            //currentIndex = currentIndex % (state.max+1);
        
     }
-    
+   
     this.setState({
       currentIndex: currentIndex,
       finalMoveX: moveX
@@ -88,7 +96,7 @@ var App = React.createClass({
 
   render () {
     
-    var {currentIndex, finalMoveX} = this.state;
+    var {currentIndex, finalMoveX, isMoving} = this.state;
     var state = this.state;
     var moveX = state.touchEndX - state.touchStartX;
     var moveY = state.touchEndY - state.touchStartY;
@@ -102,7 +110,8 @@ var App = React.createClass({
             <Cards data={this.state.data}
                    currentIndex={currentIndex}
                    moveX={moveX}
-                   finalMoveX={finalMoveX} />
+                   finalMoveX={finalMoveX}
+                   isMoving={isMoving} />
         </div>
     );
   }
