@@ -1,6 +1,6 @@
 .Cards-container { /* container */
    width: 320px;
-   height: 320px;
+   height: 100vh;
    border: 5px solid black;
    position: absolute;
    top: 20px;
@@ -16,7 +16,7 @@
 .Cards-content { /* content */
    background: white;
    width: 1920px; /* = 6 x 320 */
-   height: 320px;
+   height: 100vh;
    white-space: nowrap;
    -webkit-transform-origin: left top;
    -webkit-transform: translateZ(0);
